@@ -54,24 +54,24 @@ const weekSchedule: DaySchedule[] = [
     date: '14.10',
     lessons: [
       { subject: 'Алгебра', time: '8:00-8:40', grade: 5, homework: 'Решить задачи №145-150' },
-      { subject: 'Русский язык', time: '9:00-9:40', grade: 4, homework: 'Упражнение 87' },
+      { subject: 'Русский язык', time: '9:00-9:40', homework: 'Упражнение 87' },
       { subject: 'История', time: '10:05-10:45', grade: 5 },
-      { subject: 'Физика', time: '11:00-11:40', grade: 5, homework: 'Параграф 12, задачи' },
-      { subject: 'Английский язык', time: '11:50-12:25', grade: 4 },
+      { subject: 'Физика', time: '11:00-11:40', homework: 'Параграф 12, задачи' },
+      { subject: 'Английский язык', time: '11:50-12:25' },
       { subject: 'Биология', time: '12:30-13:05', grade: 4, homework: 'Читать параграф 8' },
-      { subject: 'Физкультура', time: '13:10-13:45', grade: 5 },
+      { subject: 'Физкультура', time: '13:10-13:45' },
     ]
   },
   {
     day: 'Вторник',
     date: '15.10',
     lessons: [
-      { subject: 'Геометрия', time: '8:00-8:40', grade: 4, homework: 'Теоремы выучить' },
+      { subject: 'Геометрия', time: '8:00-8:40', homework: 'Теоремы выучить' },
       { subject: 'Литература', time: '9:00-9:40', grade: 5 },
       { subject: 'Химия', time: '10:05-10:45', grade: 4, homework: 'Лабораторная работа' },
-      { subject: 'География', time: '11:00-11:40', grade: 5 },
+      { subject: 'География', time: '11:00-11:40' },
       { subject: 'Информатика', time: '11:50-12:25', grade: 5, homework: 'Программирование задач' },
-      { subject: 'Обществознание', time: '12:30-13:05', grade: 4 },
+      { subject: 'Обществознание', time: '12:30-13:05' },
     ]
   },
   {
@@ -80,9 +80,9 @@ const weekSchedule: DaySchedule[] = [
     lessons: [
       { subject: 'Русский язык', time: '8:00-8:40', grade: 4 },
       { subject: 'Алгебра', time: '9:00-9:40', grade: 5, homework: 'Контрольная работа' },
-      { subject: 'Английский язык', time: '10:05-10:45', grade: 4, homework: 'Учить слова стр. 42' },
-      { subject: 'Физика', time: '11:00-11:40', grade: 5 },
-      { subject: 'Биология', time: '11:50-12:25', grade: 4 },
+      { subject: 'Английский язык', time: '10:05-10:45', homework: 'Учить слова стр. 42' },
+      { subject: 'Физика', time: '11:00-11:40' },
+      { subject: 'Биология', time: '11:50-12:25' },
       { subject: 'Литература', time: '12:30-13:05', grade: 5, homework: 'Читать главы 3-5' },
     ]
   },
@@ -92,23 +92,23 @@ const weekSchedule: DaySchedule[] = [
     lessons: [
       { subject: 'История', time: '8:00-8:40', grade: 5, homework: 'Сообщение о войне 1812 г.' },
       { subject: 'Геометрия', time: '9:00-9:40', grade: 4 },
-      { subject: 'Химия', time: '10:05-10:45', grade: 4, homework: 'Решить уравнения' },
-      { subject: 'Обществознание', time: '11:00-11:40', grade: 4 },
-      { subject: 'География', time: '11:50-12:25', grade: 5 },
-      { subject: 'Информатика', time: '12:30-13:05', grade: 5 },
-      { subject: 'Физкультура', time: '13:10-13:45', grade: 5 },
+      { subject: 'Химия', time: '10:05-10:45', homework: 'Решить уравнения' },
+      { subject: 'Обществознание', time: '11:00-11:40' },
+      { subject: 'География', time: '11:50-12:25' },
+      { subject: 'Информатика', time: '12:30-13:05', grade: 4 },
+      { subject: 'Физкультура', time: '13:10-13:45' },
     ]
   },
   {
     day: 'Пятница',
     date: '18.10',
     lessons: [
-      { subject: 'Литература', time: '8:00-8:40', grade: 5 },
+      { subject: 'Литература', time: '8:00-8:40' },
       { subject: 'Алгебра', time: '9:00-9:40', grade: 5 },
       { subject: 'Английский язык', time: '10:05-10:45', grade: 4 },
-      { subject: 'Русский язык', time: '11:00-11:40', grade: 4, homework: 'Сочинение' },
+      { subject: 'Русский язык', time: '11:00-11:40', homework: 'Сочинение' },
       { subject: 'Физика', time: '11:50-12:25', grade: 5 },
-      { subject: 'История', time: '12:30-13:05', grade: 5 },
+      { subject: 'История', time: '12:30-13:05' },
     ]
   },
 ];
