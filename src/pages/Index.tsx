@@ -7,31 +7,27 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 interface Subject {
   name: string;
   icon: string;
-  grades: {
-    q1: number;
-    q2: number;
-    q3: number;
-    q4: number;
-  };
+  grade: number;
 }
 
 const subjects: Subject[] = [
-  { name: 'Математика', icon: 'Calculator', grades: { q1: 5, q2: 4, q3: 5, q4: 5 } },
-  { name: 'Русский язык', icon: 'BookOpen', grades: { q1: 4, q2: 5, q3: 4, q4: 5 } },
-  { name: 'Литература', icon: 'BookMarked', grades: { q1: 5, q2: 5, q3: 5, q4: 4 } },
-  { name: 'Английский язык', icon: 'Languages', grades: { q1: 4, q2: 4, q3: 5, q4: 5 } },
-  { name: 'История', icon: 'Landmark', grades: { q1: 5, q2: 4, q3: 4, q4: 5 } },
-  { name: 'Обществознание', icon: 'Users', grades: { q1: 4, q2: 5, q3: 5, q4: 4 } },
-  { name: 'География', icon: 'Globe', grades: { q1: 5, q2: 5, q3: 4, q4: 5 } },
-  { name: 'Биология', icon: 'Leaf', grades: { q1: 4, q2: 4, q3: 5, q4: 4 } },
-  { name: 'Физика', icon: 'Zap', grades: { q1: 5, q2: 4, q3: 4, q4: 5 } },
-  { name: 'Химия', icon: 'TestTube', grades: { q1: 4, q2: 5, q3: 5, q4: 4 } },
-  { name: 'Информатика', icon: 'Monitor', grades: { q1: 5, q2: 5, q3: 5, q4: 5 } },
-  { name: 'Физкультура', icon: 'Dumbbell', grades: { q1: 5, q2: 5, q3: 5, q4: 5 } },
+  { name: 'Алгебра', icon: 'Calculator', grade: 5 },
+  { name: 'Геометрия', icon: 'Triangle', grade: 4 },
+  { name: 'Русский язык', icon: 'BookOpen', grade: 4 },
+  { name: 'Литература', icon: 'BookMarked', grade: 5 },
+  { name: 'Английский язык', icon: 'Languages', grade: 4 },
+  { name: 'История', icon: 'Landmark', grade: 5 },
+  { name: 'Обществознание', icon: 'Users', grade: 4 },
+  { name: 'География', icon: 'Globe', grade: 5 },
+  { name: 'Биология', icon: 'Leaf', grade: 4 },
+  { name: 'Физика', icon: 'Zap', grade: 5 },
+  { name: 'Химия', icon: 'TestTube', grade: 4 },
+  { name: 'Информатика', icon: 'Monitor', grade: 5 },
+  { name: 'Физкультура', icon: 'Dumbbell', grade: 5 },
 ];
 
 const Index = () => {
-  const [selectedQuarter, setSelectedQuarter] = useState<'all' | 'q1' | 'q2' | 'q3' | 'q4'>('all');
+
 
   const getGradeColor = (grade: number) => {
     if (grade === 5) return 'bg-green-100 text-green-700 border-green-300';
@@ -39,14 +35,8 @@ const Index = () => {
     return 'bg-gray-100 text-gray-700 border-gray-300';
   };
 
-  const calculateAverage = (grades: { q1: number; q2: number; q3: number; q4: number }) => {
-    return ((grades.q1 + grades.q2 + grades.q3 + grades.q4) / 4).toFixed(1);
-  };
-
   const calculateTotalAverage = () => {
-    const total = subjects.reduce((sum, subject) => {
-      return sum + parseFloat(calculateAverage(subject.grades));
-    }, 0);
+    const total = subjects.reduce((sum, subject) => sum + subject.grade, 0);
     return (total / subjects.length).toFixed(2);
   };
 
@@ -60,7 +50,7 @@ const Index = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
             Электронный дневник
           </h1>
-          <p className="text-lg text-gray-600">8 класс • 2024-2025 учебный год</p>
+          <p className="text-lg text-gray-600">8 класс • 1 четверть • 2024-2025 учебный год</p>
         </div>
 
         <Card className="mb-6 shadow-lg border-0 animate-fade-in">
@@ -76,25 +66,9 @@ const Index = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
-            <Tabs value={selectedQuarter} onValueChange={(v) => setSelectedQuarter(v as any)}>
-              <TabsList className="grid w-full grid-cols-5 mb-6">
-                <TabsTrigger value="all" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-green-500 data-[state=active]:text-white">
-                  Все четверти
-                </TabsTrigger>
-                <TabsTrigger value="q1" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-                  1 четверть
-                </TabsTrigger>
-                <TabsTrigger value="q2" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-                  2 четверть
-                </TabsTrigger>
-                <TabsTrigger value="q3" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-                  3 четверть
-                </TabsTrigger>
-                <TabsTrigger value="q4" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-                  4 четверть
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <div className="text-center">
+              <p className="text-gray-600">Показаны оценки за 1 четверть</p>
+            </div>
           </CardContent>
         </Card>
 
@@ -114,53 +88,11 @@ const Index = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  {selectedQuarter === 'all' ? (
-                    <>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">1 четверть</span>
-                        <Badge className={`${getGradeColor(subject.grades.q1)} border font-semibold`}>
-                          {subject.grades.q1}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">2 четверть</span>
-                        <Badge className={`${getGradeColor(subject.grades.q2)} border font-semibold`}>
-                          {subject.grades.q2}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">3 четверть</span>
-                        <Badge className={`${getGradeColor(subject.grades.q3)} border font-semibold`}>
-                          {subject.grades.q3}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">4 четверть</span>
-                        <Badge className={`${getGradeColor(subject.grades.q4)} border font-semibold`}>
-                          {subject.grades.q4}
-                        </Badge>
-                      </div>
-                      <div className="pt-2 mt-2 border-t flex items-center justify-between">
-                        <span className="text-sm font-semibold text-gray-700">Средний балл</span>
-                        <Badge className="bg-gradient-to-r from-blue-500 to-green-500 text-white text-base px-3">
-                          {calculateAverage(subject.grades)}
-                        </Badge>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="text-center py-8">
-                      <Badge className={`${getGradeColor(subject.grades[selectedQuarter])} border text-4xl px-6 py-3 font-bold`}>
-                        {subject.grades[selectedQuarter]}
-                      </Badge>
-                      <p className="text-sm text-gray-600 mt-4">
-                        {selectedQuarter === 'q1' && '1 четверть'}
-                        {selectedQuarter === 'q2' && '2 четверть'}
-                        {selectedQuarter === 'q3' && '3 четверть'}
-                        {selectedQuarter === 'q4' && '4 четверть'}
-                      </p>
-                    </div>
-                  )}
+                <div className="text-center py-8">
+                  <Badge className={`${getGradeColor(subject.grade)} border text-5xl px-8 py-4 font-bold`}>
+                    {subject.grade}
+                  </Badge>
+                  <p className="text-sm text-gray-600 mt-4">1 четверть</p>
                 </div>
               </CardContent>
             </Card>
@@ -179,16 +111,16 @@ const Index = () => {
               <div className="text-center p-4 bg-green-50 rounded-xl border-2 border-green-200">
                 <Icon name="Star" size={32} className="text-green-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-green-700">
-                  {subjects.filter(s => calculateAverage(s.grades) === '5.0').length}
+                  {subjects.filter(s => s.grade === 5).length}
                 </p>
                 <p className="text-sm text-gray-600">Предметов на отлично</p>
               </div>
               <div className="text-center p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
                 <Icon name="Award" size={32} className="text-blue-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-blue-700">
-                  {subjects.reduce((sum, s) => sum + Object.values(s.grades).filter(g => g === 5).length, 0)}
+                  {subjects.filter(s => s.grade === 5).length}
                 </p>
-                <p className="text-sm text-gray-600">Пятёрок за год</p>
+                <p className="text-sm text-gray-600">Пятёрок в четверти</p>
               </div>
               <div className="text-center p-4 bg-purple-50 rounded-xl border-2 border-purple-200">
                 <Icon name="Target" size={32} className="text-purple-600 mx-auto mb-2" />
