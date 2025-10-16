@@ -2,7 +2,16 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
 
 interface Subject {
   name: string;
@@ -10,7 +19,7 @@ interface Subject {
   grade: number;
 }
 
-const subjects: Subject[] = [
+const initialSubjects: Subject[] = [
   { name: 'Алгебра', icon: 'Calculator', grade: 5 },
   { name: 'Геометрия', icon: 'Triangle', grade: 4 },
   { name: 'Русский язык', icon: 'BookOpen', grade: 4 },
@@ -27,7 +36,11 @@ const subjects: Subject[] = [
 ];
 
 const Index = () => {
-
+  const [subjects, setSubjects] = useState<Subject[]>(initialSubjects);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
+  const [selectedGrade, setSelectedGrade] = useState<number>(5);
+  const { toast } = useToast();
 
   const getGradeColor = (grade: number) => {
     if (grade === 5) return 'bg-green-100 text-green-700 border-green-300';
@@ -38,6 +51,25 @@ const Index = () => {
   const calculateTotalAverage = () => {
     const total = subjects.reduce((sum, subject) => sum + subject.grade, 0);
     return (total / subjects.length).toFixed(2);
+  };
+
+  const handleGradeClick = (subject: Subject) => {
+    setSelectedSubject(subject);
+    setSelectedGrade(subject.grade);
+    setIsDialogOpen(true);
+  };
+
+  const handleSaveGrade = () => {
+    if (selectedSubject) {
+      setSubjects(subjects.map(s => 
+        s.name === selectedSubject.name ? { ...s, grade: selectedGrade } : s
+      ));
+      toast({
+        title: 'Оценка изменена',
+        description: `${selectedSubject.name}: ${selectedGrade}`,
+      });
+      setIsDialogOpen(false);
+    }
   };
 
   return (
@@ -89,10 +121,22 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8">
-                  <Badge className={`${getGradeColor(subject.grade)} border text-5xl px-8 py-4 font-bold`}>
+                  <Badge 
+                    className={`${getGradeColor(subject.grade)} border text-5xl px-8 py-4 font-bold cursor-pointer hover:scale-110 transition-transform`}
+                    onClick={() => handleGradeClick(subject)}
+                  >
                     {subject.grade}
                   </Badge>
                   <p className="text-sm text-gray-600 mt-4">1 четверть</p>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="mt-3 text-blue-600 hover:text-blue-700"
+                    onClick={() => handleGradeClick(subject)}
+                  >
+                    <Icon name="Edit" size={16} className="mr-1" />
+                    Изменить
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -130,6 +174,53 @@ const Index = () => {
             </div>
           </CardContent>
         </Card>
+
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                {selectedSubject && (
+                  <>
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center">
+                      <Icon name={selectedSubject.icon} size={16} className="text-white" />
+                    </div>
+                    {selectedSubject.name}
+                  </>
+                )}
+              </DialogTitle>
+              <DialogDescription>
+                Выберите оценку за 1 четверть
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex justify-center gap-3 py-6">
+              {[2, 3, 4, 5].map((grade) => (
+                <button
+                  key={grade}
+                  onClick={() => setSelectedGrade(grade)}
+                  className={`w-16 h-16 rounded-xl font-bold text-2xl transition-all duration-200 ${
+                    selectedGrade === grade
+                      ? 'scale-110 shadow-lg ' + getGradeColor(grade) + ' border-2'
+                      : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                  }`}
+                >
+                  {grade}
+                </button>
+              ))}
+            </div>
+            <DialogFooter className="flex gap-2">
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                Отмена
+              </Button>
+              <Button 
+                className="bg-gradient-to-r from-blue-500 to-green-500 text-white hover:opacity-90"
+                onClick={handleSaveGrade}
+              >
+                <Icon name="Check" size={16} className="mr-1" />
+                Сохранить
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
