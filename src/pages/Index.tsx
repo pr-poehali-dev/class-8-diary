@@ -59,6 +59,7 @@ const weekSchedule: DaySchedule[] = [
       { subject: 'Физика', time: '11:00-11:40', grade: 5, homework: 'Параграф 12, задачи' },
       { subject: 'Английский язык', time: '11:50-12:25', grade: 4 },
       { subject: 'Биология', time: '12:30-13:05', grade: 4, homework: 'Читать параграф 8' },
+      { subject: 'Физкультура', time: '13:10-13:45', grade: 5 },
     ]
   },
   {
@@ -95,6 +96,7 @@ const weekSchedule: DaySchedule[] = [
       { subject: 'Обществознание', time: '11:00-11:40', grade: 4 },
       { subject: 'География', time: '11:50-12:25', grade: 5 },
       { subject: 'Информатика', time: '12:30-13:05', grade: 5 },
+      { subject: 'Физкультура', time: '13:10-13:45', grade: 5 },
     ]
   },
   {
