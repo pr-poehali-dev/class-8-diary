@@ -19,6 +19,19 @@ interface Subject {
   grade: number;
 }
 
+interface ScheduleLesson {
+  subject: string;
+  time: string;
+  grade?: number;
+  homework?: string;
+}
+
+interface DaySchedule {
+  day: string;
+  date: string;
+  lessons: ScheduleLesson[];
+}
+
 const initialSubjects: Subject[] = [
   { name: 'Алгебра', icon: 'Calculator', grade: 5 },
   { name: 'Геометрия', icon: 'Triangle', grade: 4 },
@@ -35,11 +48,70 @@ const initialSubjects: Subject[] = [
   { name: 'Физкультура', icon: 'Dumbbell', grade: 5 },
 ];
 
+const weekSchedule: DaySchedule[] = [
+  {
+    day: 'Понедельник',
+    date: '14.10',
+    lessons: [
+      { subject: 'Алгебра', time: '8:30', grade: 5, homework: 'Решить задачи №145-150' },
+      { subject: 'Русский язык', time: '9:30', grade: 4, homework: 'Упражнение 87' },
+      { subject: 'История', time: '10:30', grade: 5 },
+      { subject: 'Физика', time: '11:30', grade: 5, homework: 'Параграф 12, задачи' },
+      { subject: 'Английский язык', time: '12:30', grade: 4 },
+    ]
+  },
+  {
+    day: 'Вторник',
+    date: '15.10',
+    lessons: [
+      { subject: 'Геометрия', time: '8:30', grade: 4, homework: 'Теоремы выучить' },
+      { subject: 'Литература', time: '9:30', grade: 5 },
+      { subject: 'Химия', time: '10:30', grade: 4, homework: 'Лабораторная работа' },
+      { subject: 'Физкультура', time: '11:30', grade: 5 },
+      { subject: 'География', time: '12:30', grade: 5 },
+    ]
+  },
+  {
+    day: 'Среда',
+    date: '16.10',
+    lessons: [
+      { subject: 'Информатика', time: '8:30', grade: 5, homework: 'Практическая работа' },
+      { subject: 'Биология', time: '9:30', grade: 4 },
+      { subject: 'Русский язык', time: '10:30' },
+      { subject: 'Алгебра', time: '11:30' },
+      { subject: 'Английский язык', time: '12:30' },
+    ]
+  },
+  {
+    day: 'Четверг',
+    date: '17.10',
+    lessons: [
+      { subject: 'История', time: '8:30' },
+      { subject: 'Физика', time: '9:30' },
+      { subject: 'Обществознание', time: '10:30', grade: 4 },
+      { subject: 'Литература', time: '11:30' },
+      { subject: 'Физкультура', time: '12:30', grade: 5 },
+    ]
+  },
+  {
+    day: 'Пятница',
+    date: '18.10',
+    lessons: [
+      { subject: 'Геометрия', time: '8:30' },
+      { subject: 'Химия', time: '9:30' },
+      { subject: 'География', time: '10:30' },
+      { subject: 'Английский язык', time: '11:30' },
+      { subject: 'Информатика', time: '12:30' },
+    ]
+  },
+];
+
 const Index = () => {
   const [subjects, setSubjects] = useState<Subject[]>(initialSubjects);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
   const [selectedGrade, setSelectedGrade] = useState<number>(5);
+  const [activeTab, setActiveTab] = useState<'grades' | 'schedule'>('grades');
   const { toast } = useToast();
 
   const getGradeColor = useCallback((grade: number) => {
@@ -102,6 +174,27 @@ const Index = () => {
           <p className="text-lg text-gray-600">8 класс • 1 четверть</p>
         </div>
 
+        <div className="flex justify-center gap-2 mb-6 animate-fade-in">
+          <Button
+            variant={activeTab === 'grades' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('grades')}
+            className="px-6"
+          >
+            <Icon name="BookOpen" size={18} className="mr-2" />
+            Оценки
+          </Button>
+          <Button
+            variant={activeTab === 'schedule' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('schedule')}
+            className="px-6"
+          >
+            <Icon name="Calendar" size={18} className="mr-2" />
+            Расписание
+          </Button>
+        </div>
+
+        {activeTab === 'grades' && (
+          <>
         <Card className="mb-6 shadow-lg border-0 animate-fade-in">
           <CardHeader className="bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-t-lg">
             <CardTitle className="flex items-center justify-between">
@@ -182,6 +275,58 @@ const Index = () => {
             </div>
           </CardContent>
         </Card>
+          </>
+        )}
+
+        {activeTab === 'schedule' && (
+          <div className="space-y-4 animate-fade-in">
+            {weekSchedule.map((day, dayIndex) => (
+              <Card key={day.day} className="shadow-lg border-0" style={{ animationDelay: `${dayIndex * 0.1}s` }}>
+                <CardHeader className="bg-gradient-to-r from-blue-500 to-green-500 text-white">
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <Icon name="Calendar" size={20} />
+                      {day.day}
+                    </span>
+                    <Badge variant="secondary" className="bg-white text-blue-700">
+                      {day.date}
+                    </Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  <div className="space-y-3">
+                    {day.lessons.map((lesson, lessonIndex) => (
+                      <div
+                        key={lessonIndex}
+                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      >
+                        <div className="flex items-center gap-3 flex-1">
+                          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center text-white font-semibold text-sm">
+                            {lesson.time}
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-semibold text-gray-900">{lesson.subject}</p>
+                            {lesson.homework && (
+                              <p className="text-sm text-gray-600 flex items-center gap-1 mt-1">
+                                <Icon name="FileText" size={14} />
+                                {lesson.homework}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        {lesson.grade && (
+                          <Badge className={`${getGradeColor(lesson.grade)} border text-2xl px-4 py-2 font-bold`}>
+                            {lesson.grade}
+                          </Badge>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-md">
