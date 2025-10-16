@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
@@ -42,24 +42,26 @@ const Index = () => {
   const [selectedGrade, setSelectedGrade] = useState<number>(5);
   const { toast } = useToast();
 
-  const getGradeColor = (grade: number) => {
+  const getGradeColor = useCallback((grade: number) => {
     if (grade === 5) return 'bg-green-100 text-green-700 border-green-300';
     if (grade === 4) return 'bg-blue-100 text-blue-700 border-blue-300';
     return 'bg-gray-100 text-gray-700 border-gray-300';
-  };
+  }, []);
 
-  const calculateTotalAverage = () => {
+  const totalAverage = useMemo(() => {
     const total = subjects.reduce((sum, subject) => sum + subject.grade, 0);
     return (total / subjects.length).toFixed(2);
-  };
+  }, [subjects]);
 
-  const handleGradeClick = (subject: Subject) => {
+  const fiveGradesCount = useMemo(() => subjects.filter(s => s.grade === 5).length, [subjects]);
+
+  const handleGradeClick = useCallback((subject: Subject) => {
     setSelectedSubject(subject);
     setSelectedGrade(subject.grade);
     setIsDialogOpen(true);
-  };
+  }, []);
 
-  const handleSaveGrade = () => {
+  const handleSaveGrade = useCallback(() => {
     if (selectedSubject) {
       setSubjects(subjects.map(s => 
         s.name === selectedSubject.name ? { ...s, grade: selectedGrade } : s
@@ -70,7 +72,7 @@ const Index = () => {
       });
       setIsDialogOpen(false);
     }
-  };
+  }, [selectedSubject, selectedGrade, subjects, toast]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 p-4 md:p-8 relative">
@@ -108,7 +110,7 @@ const Index = () => {
                 Общая статистика
               </span>
               <Badge variant="secondary" className="bg-white text-blue-700 text-lg px-4 py-1">
-                Средний балл: {calculateTotalAverage()}
+                Средний балл: {totalAverage}
               </Badge>
             </CardTitle>
           </CardHeader>
@@ -161,20 +163,20 @@ const Index = () => {
               <div className="text-center p-4 bg-green-50 rounded-xl border-2 border-green-200">
                 <Icon name="Star" size={32} className="text-green-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-green-700">
-                  {subjects.filter(s => s.grade === 5).length}
+                  {fiveGradesCount}
                 </p>
                 <p className="text-sm text-gray-600">Предметов на отлично</p>
               </div>
               <div className="text-center p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
                 <Icon name="Award" size={32} className="text-blue-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-blue-700">
-                  {subjects.filter(s => s.grade === 5).length}
+                  {fiveGradesCount}
                 </p>
                 <p className="text-sm text-gray-600">Пятёрок в четверти</p>
               </div>
               <div className="text-center p-4 bg-purple-50 rounded-xl border-2 border-purple-200">
                 <Icon name="Target" size={32} className="text-purple-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-purple-700">{calculateTotalAverage()}</p>
+                <p className="text-2xl font-bold text-purple-700">{totalAverage}</p>
                 <p className="text-sm text-gray-600">Общий средний балл</p>
               </div>
             </div>
