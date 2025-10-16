@@ -73,8 +73,23 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 p-4 md:p-8 relative">
       <div className="max-w-7xl mx-auto">
+        <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
+          <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm">
+            <p className="text-xs text-gray-500">Ученик</p>
+            <p className="text-sm font-semibold text-gray-800">Котов Андрей</p>
+            <p className="text-xs text-gray-500">2025-2026 учебный год</p>
+          </div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="bg-white/80 backdrop-blur-sm text-gray-500 hover:text-gray-700 hover:bg-white/90"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            <Icon name="Settings" size={16} />
+          </Button>
+        </div>
         <div className="mb-8 text-center animate-fade-in">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-2xl mb-4 shadow-lg">
             <Icon name="GraduationCap" size={32} className="text-white" />
@@ -82,7 +97,7 @@ const Index = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
             Электронный дневник
           </h1>
-          <p className="text-lg text-gray-600">8 класс • 1 четверть • 2024-2025 учебный год</p>
+          <p className="text-lg text-gray-600">8 класс • 1 четверть</p>
         </div>
 
         <Card className="mb-6 shadow-lg border-0 animate-fade-in">
@@ -128,15 +143,6 @@ const Index = () => {
                     {subject.grade}
                   </Badge>
                   <p className="text-sm text-gray-600 mt-4">1 четверть</p>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="mt-3 text-blue-600 hover:text-blue-700"
-                    onClick={() => handleGradeClick(subject)}
-                  >
-                    <Icon name="Edit" size={16} className="mr-1" />
-                    Изменить
-                  </Button>
                 </div>
               </CardContent>
             </Card>
