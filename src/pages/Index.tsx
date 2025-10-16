@@ -32,6 +32,15 @@ interface DaySchedule {
   lessons: ScheduleLesson[];
 }
 
+interface WeekStats {
+  weekNumber: number;
+  dateRange: string;
+  totalGrades: number;
+  fiveCount: number;
+  fourCount: number;
+  average: string;
+}
+
 const initialSubjects: Subject[] = [
   { name: 'Алгебра', icon: 'Calculator', grade: 5 },
   { name: 'Геометрия', icon: 'Triangle', grade: 4 },
@@ -113,12 +122,22 @@ const weekSchedule: DaySchedule[] = [
   },
 ];
 
+const previousWeeksStats: WeekStats[] = [
+  { weekNumber: 1, dateRange: '2.09 - 6.09', totalGrades: 12, fiveCount: 7, fourCount: 5, average: '4.58' },
+  { weekNumber: 2, dateRange: '9.09 - 13.09', totalGrades: 11, fiveCount: 6, fourCount: 5, average: '4.55' },
+  { weekNumber: 3, dateRange: '16.09 - 20.09', totalGrades: 13, fiveCount: 8, fourCount: 5, average: '4.62' },
+  { weekNumber: 4, dateRange: '23.09 - 27.09', totalGrades: 10, fiveCount: 6, fourCount: 4, average: '4.60' },
+  { weekNumber: 5, dateRange: '30.09 - 4.10', totalGrades: 12, fiveCount: 7, fourCount: 5, average: '4.58' },
+  { weekNumber: 6, dateRange: '7.10 - 11.10', totalGrades: 11, fiveCount: 8, fourCount: 3, average: '4.73' },
+];
+
 const Index = () => {
   const [subjects, setSubjects] = useState<Subject[]>(initialSubjects);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
   const [selectedGrade, setSelectedGrade] = useState<number>(5);
   const [activeTab, setActiveTab] = useState<'grades' | 'schedule'>('grades');
+  const [showStatsDialog, setShowStatsDialog] = useState(false);
   const { toast } = useToast();
 
   const getGradeColor = useCallback((grade: number) => {
@@ -197,6 +216,14 @@ const Index = () => {
           >
             <Icon name="Calendar" size={18} className="mr-2" />
             Расписание
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setShowStatsDialog(true)}
+            className="px-6"
+          >
+            <Icon name="BarChart3" size={18} className="mr-2" />
+            Статистика
           </Button>
         </div>
 
@@ -334,6 +361,66 @@ const Index = () => {
             ))}
           </div>
         )}
+
+        <Dialog open={showStatsDialog} onOpenChange={setShowStatsDialog}>
+          <DialogContent className="sm:max-w-3xl">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Icon name="BarChart3" size={24} />
+                Статистика за предыдущие недели
+              </DialogTitle>
+              <DialogDescription>
+                Просмотр успеваемости за прошлые учебные недели
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-3 max-h-[60vh] overflow-y-auto">
+              {previousWeeksStats.map((week) => (
+                <Card key={week.weekNumber} className="border-2">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="flex items-center justify-between text-lg">
+                      <span className="flex items-center gap-2">
+                        <Icon name="CalendarDays" size={20} />
+                        Неделя {week.weekNumber}
+                      </span>
+                      <Badge variant="secondary" className="text-sm">
+                        {week.dateRange}
+                      </Badge>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-4 gap-4">
+                      <div className="text-center p-3 bg-blue-50 rounded-lg">
+                        <Icon name="ListChecks" size={20} className="text-blue-600 mx-auto mb-1" />
+                        <p className="text-xl font-bold text-blue-700">{week.totalGrades}</p>
+                        <p className="text-xs text-gray-600">Всего оценок</p>
+                      </div>
+                      <div className="text-center p-3 bg-green-50 rounded-lg">
+                        <Icon name="Star" size={20} className="text-green-600 mx-auto mb-1" />
+                        <p className="text-xl font-bold text-green-700">{week.fiveCount}</p>
+                        <p className="text-xs text-gray-600">Пятёрок</p>
+                      </div>
+                      <div className="text-center p-3 bg-cyan-50 rounded-lg">
+                        <Icon name="ThumbsUp" size={20} className="text-cyan-600 mx-auto mb-1" />
+                        <p className="text-xl font-bold text-cyan-700">{week.fourCount}</p>
+                        <p className="text-xs text-gray-600">Четвёрок</p>
+                      </div>
+                      <div className="text-center p-3 bg-purple-50 rounded-lg">
+                        <Icon name="TrendingUp" size={20} className="text-purple-600 mx-auto mb-1" />
+                        <p className="text-xl font-bold text-purple-700">{week.average}</p>
+                        <p className="text-xs text-gray-600">Средний балл</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <DialogFooter>
+              <Button onClick={() => setShowStatsDialog(false)}>
+                Закрыть
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-md">
