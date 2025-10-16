@@ -68,7 +68,7 @@ const weekSchedule: DaySchedule[] = [
     lessons: [
       { subject: 'Геометрия', time: '8:00-8:40', homework: 'Теоремы выучить' },
       { subject: 'Литература', time: '9:00-9:40', grade: 5 },
-      { subject: 'Химия', time: '10:05-10:45', grade: 4, homework: 'Лабораторная работа' },
+      { subject: 'Химия', time: '10:05-10:45', homework: 'Лабораторная работа' },
       { subject: 'География', time: '11:00-11:40' },
       { subject: 'Информатика', time: '11:50-12:25', grade: 5, homework: 'Программирование задач' },
       { subject: 'Обществознание', time: '12:30-13:05' },
@@ -79,7 +79,7 @@ const weekSchedule: DaySchedule[] = [
     date: '16.10',
     lessons: [
       { subject: 'Русский язык', time: '8:00-8:40', grade: 4 },
-      { subject: 'Алгебра', time: '9:00-9:40', grade: 5, homework: 'Контрольная работа' },
+      { subject: 'Алгебра', time: '9:00-9:40', homework: 'Контрольная работа' },
       { subject: 'Английский язык', time: '10:05-10:45', homework: 'Учить слова стр. 42' },
       { subject: 'Физика', time: '11:00-11:40' },
       { subject: 'Биология', time: '11:50-12:25' },
@@ -105,9 +105,9 @@ const weekSchedule: DaySchedule[] = [
     lessons: [
       { subject: 'Литература', time: '8:00-8:40' },
       { subject: 'Алгебра', time: '9:00-9:40', grade: 5 },
-      { subject: 'Английский язык', time: '10:05-10:45', grade: 4 },
+      { subject: 'Английский язык', time: '10:05-10:45' },
       { subject: 'Русский язык', time: '11:00-11:40', homework: 'Сочинение' },
-      { subject: 'Физика', time: '11:50-12:25', grade: 5 },
+      { subject: 'Физика', time: '11:50-12:25', grade: 4 },
       { subject: 'История', time: '12:30-13:05' },
     ]
   },
